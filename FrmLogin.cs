@@ -26,9 +26,12 @@ namespace EXAM_MusicCollection_EDM
                     .FirstOrDefault(u => u.Username == tbLogin.Text && u.Password == tbPassword.Text);
 
                 if (user == null)
+                {
                     MessageBox.Show("Пользователь не найден");
+                    return;
+                }
 
-                FrmMain mainForm = new FrmMain(user.AccessLevel == 1);
+                FrmMain mainForm = new FrmMain(user.AccessLevel == 1, this);
                 mainForm.Show();
 
                 this.Hide();

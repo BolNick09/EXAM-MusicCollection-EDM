@@ -559,6 +559,7 @@
             this.MinimumSize = new System.Drawing.Size(990, 500);
             this.Name = "FrmMain";
             this.Text = "Музыкальный магазин";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.tbpMain.ResumeLayout(false);
             this.tbpRecord.ResumeLayout(false);

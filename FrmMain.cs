@@ -21,13 +21,15 @@ namespace EXAM_MusicCollection_EDM
         private List<Genres> genres;
         private List<Records> records;
         private List<Users> users;
+
+        private FrmLogin frmLogin;
         public Records SelectedRecord { get; set; }
         public Artists SelectedArtist { get; set; }
         public Genres SelectedGenre { get; set; }
         public Users SelectedUser { get; set; }
 
 
-        public FrmMain(bool isAdmin)
+        public FrmMain(bool isAdmin, FrmLogin frmLogin)
         {
             InitializeComponent();
             artists = new List<Artists>();
@@ -36,10 +38,11 @@ namespace EXAM_MusicCollection_EDM
             records = new List<Records>();
             users = new List<Users>();
 
-
-            tbpUser.Visible = isAdmin;
+            if (!isAdmin)
+                tbpMain.TabPages.Remove(tbpUser);
             btnMod.Enabled = isAdmin;
             btnDel.Enabled = isAdmin;
+            this.frmLogin = frmLogin;
         }
         private void FrmMain_Load(object sender, EventArgs e)
         {
@@ -115,8 +118,9 @@ namespace EXAM_MusicCollection_EDM
                 if (tbpMain.SelectedTab == tbpRecord)
                     dgvMain.DataSource = records;
                 else if (tbpMain.SelectedTab == tbpArtist)
-                    dgvMain.DataSource = new List<ArtistsViewModel>(artists.Select(x => new ArtistsViewModel(x)));
-                else if (tbpMain.SelectedTab == tbpGenre)
+                    //dgvMain.DataSource = new List<ArtistsViewModel>(artists.Select(x => new ArtistsViewModel(x)));
+                    dgvMain.DataSource = artists;
+                        else if (tbpMain.SelectedTab == tbpGenre)
                     dgvMain.DataSource = new List<GenresViewModel>(genres.Select(x => new GenresViewModel(x)));
                 else if (tbpMain.SelectedTab == tbpUser)
                     dgvMain.DataSource = users;
@@ -572,6 +576,12 @@ namespace EXAM_MusicCollection_EDM
                 MessageBox.Show("Выберите критерий поиска."); // Если ничего не выбрано
                 break;
             }
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            frmLogin.Close();
+            this.Close();
         }
     }
 }
